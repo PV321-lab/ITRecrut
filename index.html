@@ -317,19 +317,14 @@
         <div class="grid">
             <div class="input-group">
                 <label>Email</label>
-                <input type="email" id="loginEmail" value="sadmin@cagnotte.com">
+                <input type="email" id="loginEmail" placeholder="sadmin@cagnotte.com">
             </div>
             <div class="input-group">
                 <label>Mot de passe</label>
-                <input type="password" id="loginPassword" value="Azerty123">
+                <input type="password" id="loginPassword" placeholder="Azerty123">
             </div>
         </div>
         <button onclick="login()" class="btn" style="width: 100%; margin-top: 20px;">Se connecter</button>
-        <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #dee2e6;">
-            <p style="color: #6c757d; margin-bottom: 10px;">Compte admin par défaut :</p>
-            <p style="color: #495057; font-weight: 500;">Email: <span style="color: #667eea;">sadmin@cagnotte.com</span></p>
-            <p style="color: #495057; font-weight: 500;">Mot de passe: <span style="color: #667eea;">Azerty123</span></p>
-        </div>
     </div>
 
     <div id="app" class="container hidden">
@@ -393,4 +388,396 @@
                     </select>
                 </div>
                 <div class="grid">
-                   
+                    <div class="input-group">
+                        <label>Utilisateur</label>
+                        <select id="dataUserSelect"></select>
+                    </div>
+                    <div class="input-group">
+                        <label>Chiffre d'affaire (€)</label>
+                        <input type="number" id="revenue" placeholder="0">
+                    </div>
+                    <div class="input-group">
+                        <label>Salaire avec charges (€)</label>
+                        <input type="number" id="salary" placeholder="0">
+                    </div>
+                    <div class="input-group">
+                        <label>Notes de frais (€)</label>
+                        <input type="number" id="expenses" placeholder="0">
+                    </div>
+                    <div class="input-group">
+                        <label>Déductions (€)</label>
+                        <input type="number" id="deductions" placeholder="0">
+                    </div>
+                    <div class="input-group">
+                        <label>Solde à ajouter (€)</label>
+                        <input type="number" id="solde" placeholder="0">
+                    </div>
+                </div>
+                <button onclick="saveData()" class="btn">Enregistrer les Données</button>
+            </div>
+
+            <div id="tableSection" class="section hidden">
+                <h2 class="section-title">Tableau des Données</h2>
+                <div id="dataTable"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAXKLrIUSXZVeroPlrLCGm47_KjdKaycjE",
+            authDomain: "invitdbs.firebaseapp.com",
+            databaseURL: "https://invitdbs-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "invitdbs",
+            storageBucket: "invitdbs.firebasestorage.app",
+            messagingSenderId: "459910810884",
+            appId: "1:459910810884:web:aa020d10de800be0385451",
+            measurementId: "G-58FW7J6C7N"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const database = firebase.database();
+
+        let currentUser = null;
+        let selectedUserId = null;
+
+        window.onload = function() {
+            checkInitialAdmin();
+        };
+
+        function checkInitialAdmin() {
+            const adminEmail = "sadmin@cagnotte.com";
+            const adminPassword = "Azerty123";
+            
+            auth.signInWithEmailAndPassword(adminEmail, adminPassword)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    database.ref('users/' + user.uid).set({
+                        name: 'Super Administrateur',
+                        email: adminEmail,
+                        isAdmin: true,
+                        createdAt: new Date().toISOString()
+                    }).then(() => {
+                        console.log('Admin créé et connecté');
+                        auth.signOut();
+                    }).catch((error) => {
+                        if (error.code === 'auth/email-already-in-use') {
+                            console.log('Admin existe déjà');
+                        }
+                    });
+                })
+                .catch((error) => {
+                    if (error.code === 'auth/user-not-found') {
+                        auth.createUserWithEmailAndPassword(adminEmail, adminPassword)
+                            .then((userCredential) => {
+                                const user = userCredential.user;
+                                return database.ref('users/' + user.uid).set({
+                                    name: 'Super Administrateur',
+                                    email: adminEmail,
+                                    isAdmin: true,
+                                    createdAt: new Date().toISOString()
+                                });
+                            })
+                            .then(() => {
+                                console.log('Admin créé avec succès');
+                                auth.signOut();
+                            })
+                            .catch((error) => {
+                                console.error('Erreur création admin:', error);
+                            });
+                    } else if (error.code === 'auth/wrong-password') {
+                        console.log('Mauvais mot de passe pour admin existant');
+                    }
+                });
+        }
+
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                database.ref('users/' + user.uid).once('value').then((snapshot) => {
+                    const userData = snapshot.val();
+                    if (userData && userData.isAdmin) {
+                        currentUser = user;
+                        document.getElementById('loginScreen').classList.add('hidden');
+                        document.getElementById('app').classList.remove('hidden');
+                        loadUsers();
+                        loadMonthData();
+                    } else {
+                        auth.signOut();
+                        showMessage('loginError', 'Accès réservé aux administrateurs');
+                    }
+                }).catch((error) => {
+                    console.error('Erreur vérification admin:', error);
+                    showMessage('loginError', 'Erreur de vérification');
+                });
+            } else {
+                document.getElementById('loginScreen').classList.remove('hidden');
+                document.getElementById('app').classList.add('hidden');
+            }
+        });
+
+        function showMessage(elementId, message, isError = true) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = isError ? 'error' : 'success';
+            element.classList.remove('hidden');
+            setTimeout(() => element.classList.add('hidden'), 3000);
+        }
+
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                showMessage('loginError', 'Veuillez remplir tous les champs');
+                return;
+            }
+            
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+            } catch (error) {
+                showMessage('loginError', 'Erreur de connexion: ' + error.message);
+            }
+        }
+
+        function logout() {
+            auth.signOut();
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+            document.getElementById(sectionId + 'Section').classList.remove('hidden');
+        }
+
+        async function createUser() {
+            const name = document.getElementById('userName').value;
+            const email = document.getElementById('userEmail').value;
+            
+            if (!name || !email) {
+                alert('Veuillez remplir tous les champs');
+                return;
+            }
+            
+            try {
+                const newUserRef = database.ref('users').push();
+                await newUserRef.set({
+                    name: name,
+                    email: email,
+                    createdAt: new Date().toISOString(),
+                    isAdmin: false
+                });
+                
+                document.getElementById('userName').value = '';
+                document.getElementById('userEmail').value = '';
+                
+                loadUsers();
+                showMessage('loginError', 'Utilisateur créé avec succès', false);
+            } catch (error) {
+                alert('Erreur: ' + error.message);
+            }
+        }
+
+        function loadUsers() {
+            database.ref('users').once('value').then((snapshot) => {
+                const users = snapshot.val() || {};
+                const userList = document.getElementById('userList');
+                const dataUserSelect = document.getElementById('dataUserSelect');
+                
+                userList.innerHTML = '';
+                dataUserSelect.innerHTML = '';
+                
+                Object.keys(users).forEach(uid => {
+                    const user = users[uid];
+                    if (user.isAdmin) return;
+                    
+                    const userCard = document.createElement('div');
+                    userCard.className = 'user-card';
+                    userCard.innerHTML = `
+                        <div class="user-info">
+                            <div class="user-name">${user.name}</div>
+                            <div class="user-email">${user.email}</div>
+                        </div>
+                        <button onclick="editUser('${uid}', '${user.name}', '${user.email}')" class="btn" style="width: 100%; margin-top: 10px;">Sélectionner</button>
+                    `;
+                    userList.appendChild(userCard);
+                    
+                    const option = document.createElement('option');
+                    option.value = uid;
+                    option.textContent = user.name;
+                    dataUserSelect.appendChild(option);
+                });
+            }).catch((error) => {
+                console.error('Erreur chargement utilisateurs:', error);
+            });
+        }
+
+        function editUser(uid, name, email) {
+            selectedUserId = uid;
+            document.getElementById('userName').value = name;
+            document.getElementById('userEmail').value = email;
+        }
+
+        async function updateUser() {
+            if (!selectedUserId) {
+                alert('Veuillez sélectionner un utilisateur à modifier');
+                return;
+            }
+            
+            const name = document.getElementById('userName').value;
+            const email = document.getElementById('userEmail').value;
+            
+            try {
+                await database.ref('users/' + selectedUserId).update({
+                    name: name,
+                    email: email
+                });
+                
+                selectedUserId = null;
+                document.getElementById('userName').value = '';
+                document.getElementById('userEmail').value = '';
+                
+                loadUsers();
+                showMessage('loginError', 'Utilisateur modifié avec succès', false);
+            } catch (error) {
+                alert('Erreur: ' + error.message);
+            }
+        }
+
+        async function deleteUser() {
+            if (!selectedUserId) {
+                alert('Veuillez sélectionner un utilisateur à supprimer');
+                return;
+            }
+            
+            if (confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
+                try {
+                    await database.ref('users/' + selectedUserId).remove();
+                    selectedUserId = null;
+                    document.getElementById('userName').value = '';
+                    document.getElementById('userEmail').value = '';
+                    
+                    loadUsers();
+                    showMessage('loginError', 'Utilisateur supprimé avec succès', false);
+                } catch (error) {
+                    alert('Erreur: ' + error.message);
+                }
+            }
+        }
+
+        async function saveData() {
+            const userId = document.getElementById('dataUserSelect').value;
+            const month = document.getElementById('monthSelect').value;
+            const year = document.getElementById('yearSelect').value;
+            
+            if (!userId) {
+                alert('Veuillez sélectionner un utilisateur');
+                return;
+            }
+            
+            const revenue = parseFloat(document.getElementById('revenue').value) || 0;
+            const salary = parseFloat(document.getElementById('salary').value) || 0;
+            const expenses = parseFloat(document.getElementById('expenses').value) || 0;
+            const deductions = parseFloat(document.getElementById('deductions').value) || 0;
+            const solde = parseFloat(document.getElementById('solde').value) || 0;
+            
+            const data = {
+                revenue: revenue,
+                salary: salary,
+                expenses: expenses,
+                deductions: deductions,
+                solde: solde,
+                updatedAt: new Date().toISOString()
+            };
+            
+            try {
+                await database.ref(`data/${year}/${month}/${userId}`).set(data);
+                loadMonthData();
+                showMessage('loginError', 'Données enregistrées avec succès', false);
+            } catch (error) {
+                alert('Erreur: ' + error.message);
+            }
+        }
+
+        async function loadMonthData() {
+            const month = document.getElementById('monthSelect').value;
+            const year = document.getElementById('yearSelect').value;
+            const userId = document.getElementById('dataUserSelect').value;
+            
+            try {
+                const snapshot = await database.ref(`data/${year}/${month}`).once('value');
+                const data = snapshot.val() || {};
+                const usersSnapshot = await database.ref('users').once('value');
+                const users = usersSnapshot.val() || {};
+                
+                if (userId) {
+                    const userData = data[userId] || {};
+                    document.getElementById('revenue').value = userData.revenue || '';
+                    document.getElementById('salary').value = userData.salary || '';
+                    document.getElementById('expenses').value = userData.expenses || '';
+                    document.getElementById('deductions').value = userData.deductions || '';
+                    document.getElementById('solde').value = userData.solde || '';
+                }
+                
+                let tableHTML = '<table>';
+                tableHTML += `
+                    <thead>
+                        <tr>
+                            <th>Utilisateur</th>
+                            <th>Chiffre d'affaire</th>
+                            <th>Salaire</th>
+                            <th>Notes de frais</th>
+                            <th>Déductions</th>
+                            <th>Sol 7 dernières</th>
+                            <th>Solde</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+                
+                let totalSol7 = 0;
+                let totalSolde = 0;
+                
+                Object.keys(data).forEach(userId => {
+                    const userData = data[userId];
+                    const user = users[userId];
+                    const sol7 = (userData.revenue || 0) - (userData.salary || 0) - (userData.expenses || 0) - (userData.deductions || 0);
+                    const solde = userData.solde || 0;
+                    
+                    totalSol7 += sol7;
+                    totalSolde += solde;
+                    
+                    tableHTML += `
+                        <tr>
+                            <td>${user ? user.name : 'Utilisateur inconnu'}</td>
+                            <td>${(userData.revenue || 0).toFixed(2)} €</td>
+                            <td>${(userData.salary || 0).toFixed(2)} €</td>
+                            <td>${(userData.expenses || 0).toFixed(2)} €</td>
+                            <td>${(userData.deductions || 0).toFixed(2)} €</td>
+                            <td class="${sol7 >= 0 ? 'positive' : 'negative'}">${sol7.toFixed(2)} €</td>
+                            <td class="${solde >= 0 ? 'positive' : 'negative'}">${solde.toFixed(2)} €</td>
+                        </tr>
+                    `;
+                });
+                
+                tableHTML += `
+                    <tr style="background-color: #f8f9fa; font-weight: 600;">
+                        <td>TOTAL</td>
+                        <td colspan="4"></td>
+                        <td class="${totalSol7 >= 0 ? 'positive' : 'negative'}">${totalSol7.toFixed(2)} €</td>
+                        <td class="${totalSolde >= 0 ? 'positive' : 'negative'}">${totalSolde.toFixed(2)} €</td>
+                    </tr>
+                `;
+                
+                tableHTML += '</tbody></table>';
+                document.getElementById('dataTable').innerHTML = tableHTML;
+                
+            } catch (error) {
+                console.error('Erreur:', error);
+            }
+        }
+
+        showSection('users');
+    </script>
+</body>
+</html>
+```
