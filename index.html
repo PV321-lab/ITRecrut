@@ -316,7 +316,7 @@
         <div class="grid">
             <div class="input-group">
                 <label>Email</label>
-                <input type="email" id="loginEmail" placeholder="admin@example.com">
+                <input type="email" id="loginEmail" placeholder="admin@cagnotte.com">
             </div>
             <div class="input-group">
                 <label>Mot de passe</label>
@@ -324,6 +324,11 @@
             </div>
         </div>
         <button onclick="login()" class="btn" style="width: 100%; margin-top: 20px;">Se connecter</button>
+        <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #dee2e6;">
+            <p style="color: #6c757d; margin-bottom: 10px;">Pour la première connexion :</p>
+            <p style="color: #495057; font-weight: 500;">Email: <span style="color: #667eea;">admin@cagnotte.com</span></p>
+            <p style="color: #495057; font-weight: 500;">Mot de passe: <span style="color: #667eea;">Admin123!</span></p>
+        </div>
     </div>
 
     <div id="app" class="container hidden">
@@ -353,14 +358,11 @@
                         <label>Email</label>
                         <input type="email" id="userEmail" placeholder="john@example.com">
                     </div>
-                    <div class="input-group">
-                        <label>Mot de passe</label>
-                        <input type="password" id="userPassword" placeholder="••••••••">
-                    </div>
                 </div>
                 <div class="btn-group">
                     <button onclick="createUser()" class="btn btn-success">Créer Utilisateur</button>
                     <button onclick="updateUser()" class="btn">Modifier Utilisateur</button>
+                    <button onclick="deleteUser()" class="btn btn-danger">Supprimer Utilisateur</button>
                 </div>
                 <div id="userList" class="user-list"></div>
             </div>
@@ -443,13 +445,52 @@
         let currentUser = null;
         let selectedUserId = null;
 
+        window.onload = function() {
+            checkInitialAdmin();
+        };
+
+        async function checkInitialAdmin() {
+            try {
+                const usersSnapshot = await database.ref('users').once('value');
+                const users = usersSnapshot.val();
+                
+                if (!users || Object.keys(users).length === 0) {
+                    try {
+                        const userCredential = await auth.createUserWithEmailAndPassword('admin@cagnotte.com', 'Admin123!');
+                        await database.ref('users/' + userCredential.user.uid).set({
+                            name: 'Administrateur',
+                            email: 'admin@cagnotte.com',
+                            isAdmin: true,
+                            createdAt: new Date().toISOString()
+                        });
+                        showMessage('loginError', 'Compte admin créé. Connectez-vous avec admin@cagnotte.com / Admin123!', false);
+                    } catch (error) {
+                        if (error.code === 'auth/email-already-in-use') {
+                        } else {
+                            showMessage('loginError', 'Erreur lors de la création du compte admin: ' + error.message);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+            }
+        }
+
         auth.onAuthStateChanged((user) => {
             if (user) {
-                currentUser = user;
-                document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('app').classList.remove('hidden');
-                loadUsers();
-                loadMonthData();
+                database.ref('users/' + user.uid).once('value').then((snapshot) => {
+                    const userData = snapshot.val();
+                    if (userData && userData.isAdmin) {
+                        currentUser = user;
+                        document.getElementById('loginScreen').classList.add('hidden');
+                        document.getElementById('app').classList.remove('hidden');
+                        loadUsers();
+                        loadMonthData();
+                    } else {
+                        auth.signOut();
+                        showMessage('loginError', 'Accès réservé aux administrateurs');
+                    }
+                });
             } else {
                 document.getElementById('loginScreen').classList.remove('hidden');
                 document.getElementById('app').classList.add('hidden');
@@ -487,21 +528,26 @@
         async function createUser() {
             const name = document.getElementById('userName').value;
             const email = document.getElementById('userEmail').value;
-            const password = document.getElementById('userPassword').value;
+            
+            if (!name || !email) {
+                alert('Veuillez remplir tous les champs');
+                return;
+            }
             
             try {
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                await database.ref('users/' + userCredential.user.uid).set({
+                const newUserRef = database.ref('users').push();
+                await newUserRef.set({
                     name: name,
                     email: email,
-                    createdAt: new Date().toISOString()
+                    createdAt: new Date().toISOString(),
+                    isAdmin: false
                 });
                 
                 document.getElementById('userName').value = '';
                 document.getElementById('userEmail').value = '';
-                document.getElementById('userPassword').value = '';
                 
                 loadUsers();
+                showMessage('loginError', 'Utilisateur créé avec succès', false);
             } catch (error) {
                 alert('Erreur: ' + error.message);
             }
@@ -518,6 +564,7 @@
                 
                 Object.keys(users).forEach(uid => {
                     const user = users[uid];
+                    if (user.isAdmin) return;
                     
                     const userCard = document.createElement('div');
                     userCard.className = 'user-card';
@@ -526,7 +573,7 @@
                             <div class="user-name">${user.name}</div>
                             <div class="user-email">${user.email}</div>
                         </div>
-                        <button onclick="editUser('${uid}', '${user.name}', '${user.email}')" class="btn" style="width: 100%; margin-top: 10px;">Modifier</button>
+                        <button onclick="editUser('${uid}', '${user.name}', '${user.email}')" class="btn" style="width: 100%; margin-top: 10px;">Sélectionner</button>
                     `;
                     userList.appendChild(userCard);
                     
@@ -542,15 +589,16 @@
             selectedUserId = uid;
             document.getElementById('userName').value = name;
             document.getElementById('userEmail').value = email;
-            document.getElementById('userPassword').value = '';
         }
 
         async function updateUser() {
-            if (!selectedUserId) return;
+            if (!selectedUserId) {
+                alert('Veuillez sélectionner un utilisateur à modifier');
+                return;
+            }
             
             const name = document.getElementById('userName').value;
             const email = document.getElementById('userEmail').value;
-            const password = document.getElementById('userPassword').value;
             
             try {
                 await database.ref('users/' + selectedUserId).update({
@@ -558,18 +606,35 @@
                     email: email
                 });
                 
-                if (password) {
-                    await auth.updatePassword(password);
-                }
-                
                 selectedUserId = null;
                 document.getElementById('userName').value = '';
                 document.getElementById('userEmail').value = '';
-                document.getElementById('userPassword').value = '';
                 
                 loadUsers();
+                showMessage('loginError', 'Utilisateur modifié avec succès', false);
             } catch (error) {
                 alert('Erreur: ' + error.message);
+            }
+        }
+
+        async function deleteUser() {
+            if (!selectedUserId) {
+                alert('Veuillez sélectionner un utilisateur à supprimer');
+                return;
+            }
+            
+            if (confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
+                try {
+                    await database.ref('users/' + selectedUserId).remove();
+                    selectedUserId = null;
+                    document.getElementById('userName').value = '';
+                    document.getElementById('userEmail').value = '';
+                    
+                    loadUsers();
+                    showMessage('loginError', 'Utilisateur supprimé avec succès', false);
+                } catch (error) {
+                    alert('Erreur: ' + error.message);
+                }
             }
         }
 
@@ -601,7 +666,7 @@
             try {
                 await database.ref(`data/${year}/${month}/${userId}`).set(data);
                 loadMonthData();
-                alert('Données enregistrées avec succès');
+                showMessage('loginError', 'Données enregistrées avec succès', false);
             } catch (error) {
                 alert('Erreur: ' + error.message);
             }
@@ -610,12 +675,22 @@
         async function loadMonthData() {
             const month = document.getElementById('monthSelect').value;
             const year = document.getElementById('yearSelect').value;
+            const userId = document.getElementById('dataUserSelect').value;
             
             try {
                 const snapshot = await database.ref(`data/${year}/${month}`).once('value');
                 const data = snapshot.val() || {};
                 const usersSnapshot = await database.ref('users').once('value');
                 const users = usersSnapshot.val() || {};
+                
+                if (userId) {
+                    const userData = data[userId] || {};
+                    document.getElementById('revenue').value = userData.revenue || '';
+                    document.getElementById('salary').value = userData.salary || '';
+                    document.getElementById('expenses').value = userData.expenses || '';
+                    document.getElementById('deductions').value = userData.deductions || '';
+                    document.getElementById('solde').value = userData.solde || '';
+                }
                 
                 let tableHTML = '<table>';
                 tableHTML += `
