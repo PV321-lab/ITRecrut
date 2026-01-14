@@ -22,7 +22,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             background: white;
             border-radius: 20px;
@@ -135,6 +135,11 @@
 
         .btn-success {
             background: #28a745;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
         }
 
         .btn-group {
@@ -285,60 +290,284 @@
             margin-bottom: 25px;
         }
 
+        .login-type {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .login-type-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            background: #f8f9fa;
+            color: #495057;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .login-type-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .user-dashboard {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+
+        .user-welcome {
+            font-size: 1.3rem;
+            color: #495057;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .data-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .summary-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+            text-align: center;
+        }
+
+        .summary-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .summary-value {
+            color: #495057;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .year-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+        }
+
+        .year-label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .select-year {
+            flex: 1;
+            max-width: 200px;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border: 2px solid #b3d7ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            color: #0066cc;
+        }
+
+        .info-box p {
+            margin-bottom: 10px;
+        }
+
+        .info-box strong {
+            color: #004080;
+        }
+
+        .data-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+        }
+
+        .export-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            text-align: center;
+        }
+
+        .stat-title {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            color: #495057;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .month-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .month-tab {
+            padding: 10px 20px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .month-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .quick-stats {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+
+        .quick-stats h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
         @media (max-width: 768px) {
             .content {
                 padding: 20px;
             }
-            
             .grid {
                 grid-template-columns: 1fr;
             }
-            
             .btn-group {
                 flex-direction: column;
             }
-            
             .month-selector {
                 flex-direction: column;
                 align-items: stretch;
             }
-            
             .select-month {
                 max-width: 100%;
+            }
+            .year-selector {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .select-year {
+                max-width: 100%;
+            }
+            .actions {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .data-controls {
+                flex-direction: column;
+                gap: 15px;
             }
         }
     </style>
 </head>
 <body>
     <div id="loginScreen" class="login-container">
-        <h2 class="login-title">Connexion Admin</h2>
+        <h2 class="login-title">Connexion Cagnotte</h2>
         <div id="loginError" class="error hidden"></div>
-        <div class="grid">
-            <div class="input-group">
-                <label>Nom d'utilisateur</label>
-                <input type="text" id="loginUsername" value="sadmin">
-            </div>
-            <div class="input-group">
-                <label>Mot de passe</label>
-                <input type="password" id="loginPassword" value="Azerty123">
+        
+        <div class="login-type">
+            <button onclick="setLoginType('admin')" id="adminLoginBtn" class="login-type-btn active">Administrateur</button>
+            <button onclick="setLoginType('user')" id="userLoginBtn" class="login-type-btn">Utilisateur</button>
+        </div>
+
+        <div id="adminLoginForm">
+            <div class="grid">
+                <div class="input-group">
+                    <label>Nom d'utilisateur admin</label>
+                    <input type="text" id="adminUsername" value="sadmin">
+                </div>
+                <div class="input-group">
+                    <label>Mot de passe admin</label>
+                    <input type="password" id="adminPassword" value="Azerty123">
+                </div>
             </div>
         </div>
-        <button onclick="login()" class="btn" style="width: 100%; margin-top: 20px;">Se connecter</button>
+
+        <div id="userLoginForm" class="hidden">
+            <div class="grid">
+                <div class="input-group">
+                    <label>Email utilisateur</label>
+                    <input type="email" id="userLoginEmail" placeholder="votre@email.com">
+                </div>
+                <div class="input-group">
+                    <label>Mot de passe</label>
+                    <input type="password" id="userLoginPassword" placeholder="Votre mot de passe">
+                </div>
+            </div>
+        </div>
+
+        <button onclick="login()" class="btn" style="width:100%;margin-top:20px">Se connecter</button>
     </div>
 
     <div id="app" class="container hidden">
         <header>
             <h1>Cagnotte</h1>
-            <div class="subtitle">Gestion des utilisateurs et des finances</div>
+            <div id="welcomeMessage" class="subtitle"></div>
         </header>
 
         <div class="content">
             <div class="actions">
                 <button onclick="logout()" class="btn btn-secondary">Déconnexion</button>
-                <div class="btn-group">
+                <div id="adminNav" class="btn-group">
                     <button onclick="showSection('users')" class="btn btn-secondary">Gestion Utilisateurs</button>
                     <button onclick="showSection('data')" class="btn">Saisie des Données</button>
                     <button onclick="showSection('table')" class="btn btn-secondary">Tableau des Données</button>
+                    <button onclick="showSection('stats')" class="btn btn-warning">Statistiques</button>
+                </div>
+                <div id="userNav" class="btn-group hidden">
+                    <button onclick="showSection('dashboard')" class="btn">Mon Tableau de Bord</button>
+                    <button onclick="showSection('userHistory')" class="btn btn-secondary">Mon Historique</button>
+                    <button onclick="showSection('userStats')" class="btn btn-warning">Mes Statistiques</button>
                 </div>
             </div>
 
@@ -353,11 +582,16 @@
                         <label>Email</label>
                         <input type="email" id="userEmail" placeholder="john@example.com">
                     </div>
+                    <div class="input-group">
+                        <label>Mot de passe</label>
+                        <input type="password" id="userPassword" placeholder="Mot de passe">
+                    </div>
                 </div>
                 <div class="btn-group">
                     <button onclick="createUser()" class="btn btn-success">Créer Utilisateur</button>
                     <button onclick="updateUser()" class="btn">Modifier Utilisateur</button>
                     <button onclick="deleteUser()" class="btn btn-danger">Supprimer Utilisateur</button>
+                    <button onclick="resetUserPassword()" class="btn btn-warning">Réinitialiser MDP</button>
                 </div>
                 <div id="userList" class="user-list"></div>
             </div>
@@ -365,59 +599,122 @@
             <div id="dataSection" class="section hidden">
                 <h2 class="section-title">Saisie des Données Mensuelles</h2>
                 <div class="month-selector">
-                    <span class="month-label">Mois :</span>
-                    <select id="monthSelect" class="select-month" onchange="loadMonthData()">
-                        <option value="01">Janvier</option>
-                        <option value="02">Février</option>
-                        <option value="03">Mars</option>
-                        <option value="04">Avril</option>
-                        <option value="05">Mai</option>
-                        <option value="06">Juin</option>
-                        <option value="07">Juillet</option>
-                        <option value="08">Août</option>
-                        <option value="09">Septembre</option>
-                        <option value="10">Octobre</option>
-                        <option value="11">Novembre</option>
-                        <option value="12">Décembre</option>
+                    <span class="month-label">Période :</span>
+                    <select id="monthSelect" class="select-month" onchange="loadUserDataForPeriod()">
+                        <option value="01">Janvier</option><option value="02">Février</option><option value="03">Mars</option><option value="04">Avril</option><option value="05">Mai</option><option value="06">Juin</option><option value="07">Juillet</option><option value="08">Août</option><option value="09">Septembre</option><option value="10">Octobre</option><option value="11">Novembre</option><option value="12">Décembre</option>
                     </select>
-                    <select id="yearSelect" class="select-month" onchange="loadMonthData()">
-                        <option value="2024">2024</option>
-                        <option value="2025">2025</option>
-                        <option value="2026">2026</option>
+                    <select id="yearSelect" class="select-month" onchange="loadUserDataForPeriod()">
+                        <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option>
                     </select>
                 </div>
                 <div class="grid">
                     <div class="input-group">
                         <label>Utilisateur</label>
-                        <select id="dataUserSelect"></select>
+                        <select id="dataUserSelect" onchange="loadUserDataForPeriod()"></select>
                     </div>
                     <div class="input-group">
                         <label>Chiffre d'affaire (€)</label>
-                        <input type="number" id="revenue" placeholder="0">
+                        <input type="number" id="revenue" placeholder="0" step="0.01">
                     </div>
                     <div class="input-group">
                         <label>Salaire avec charges (€)</label>
-                        <input type="number" id="salary" placeholder="0">
+                        <input type="number" id="salary" placeholder="0" step="0.01">
                     </div>
                     <div class="input-group">
                         <label>Notes de frais (€)</label>
-                        <input type="number" id="expenses" placeholder="0">
+                        <input type="number" id="expenses" placeholder="0" step="0.01">
                     </div>
                     <div class="input-group">
                         <label>Déductions (€)</label>
-                        <input type="number" id="deductions" placeholder="0">
+                        <input type="number" id="deductions" placeholder="0" step="0.01">
                     </div>
                     <div class="input-group">
                         <label>Solde à ajouter (€)</label>
-                        <input type="number" id="solde" placeholder="0">
+                        <input type="number" id="solde" placeholder="0" step="0.01">
                     </div>
                 </div>
-                <button onclick="saveData()" class="btn">Enregistrer les Données</button>
+                <div class="btn-group">
+                    <button onclick="saveData()" class="btn">Enregistrer les Données</button>
+                    <button onclick="clearDataForm()" class="btn btn-secondary">Effacer le Formulaire</button>
+                    <button onclick="duplicatePreviousMonth()" class="btn btn-warning">Dupliquer du Mois Précédent</button>
+                </div>
             </div>
 
             <div id="tableSection" class="section hidden">
-                <h2 class="section-title">Tableau des Données</h2>
+                <h2 class="section-title">Tableau des Données - Tous les Utilisateurs</h2>
+                <div class="data-controls">
+                    <div class="year-selector">
+                        <span class="year-label">Année :</span>
+                        <select id="tableYearSelect" class="select-year" onchange="loadTableData()">
+                            <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option>
+                        </select>
+                    </div>
+                    <div class="export-btn">
+                        <button onclick="exportToCSV()" class="btn btn-success">Exporter en CSV</button>
+                        <button onclick="exportToExcel()" class="btn btn-warning">Exporter en Excel</button>
+                    </div>
+                </div>
                 <div id="dataTable"></div>
+            </div>
+
+            <div id="statsSection" class="section hidden">
+                <h2 class="section-title">Statistiques Globales</h2>
+                <div class="year-selector">
+                    <span class="year-label">Année :</span>
+                    <select id="statsYearSelect" class="select-year" onchange="loadStats()">
+                        <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option>
+                    </select>
+                </div>
+                <div class="stats-grid" id="globalStats"></div>
+                <div id="monthlyStatsTable"></div>
+            </div>
+
+            <div id="dashboardSection" class="section hidden">
+                <div class="user-dashboard">
+                    <div class="user-welcome" id="userWelcome"></div>
+                    <div class="month-selector">
+                        <span class="month-label">Période :</span>
+                        <select id="dashboardMonthSelect" class="select-month" onchange="loadUserDashboard()">
+                            <option value="01">Janvier</option><option value="02">Février</option><option value="03">Mars</option><option value="04">Avril</option><option value="05">Mai</option><option value="06">Juin</option><option value="07">Juillet</option><option value="08">Août</option><option value="09">Septembre</option><option value="10">Octobre</option><option value="11">Novembre</option><option value="12">Décembre</option>
+                        </select>
+                        <select id="dashboardYearSelect" class="select-month" onchange="loadUserDashboard()">
+                            <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option>
+                        </select>
+                    </div>
+                    <div class="data-summary" id="userSummary"></div>
+                </div>
+                <div id="userDataTable"></div>
+            </div>
+
+            <div id="userHistorySection" class="section hidden">
+                <h2 class="section-title">Mon Historique Complet</h2>
+                <div class="info-box">
+                    <p>Ce tableau montre toutes vos données mensuelles pour l'année sélectionnée.</p>
+                    <p>Le <strong>Sol 7 dernières</strong> est calculé comme suit :</p>
+                    <p><strong>Chiffre d'affaire - Salaire - Notes de frais - Déductions</strong></p>
+                </div>
+                <div class="year-selector">
+                    <span class="year-label">Année :</span>
+                    <select id="historyYearSelect" class="select-year" onchange="loadUserHistory()">
+                        <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option>
+                    </select>
+                </div>
+                <div id="userHistoryTable"></div>
+            </div>
+
+            <div id="userStatsSection" class="section hidden">
+                <h2 class="section-title">Mes Statistiques Personnelles</h2>
+                <div class="year-selector">
+                    <span class="year-label">Année :</span>
+                    <select id="userStatsYearSelect" class="select-year" onchange="loadUserStats()">
+                        <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option>
+                    </select>
+                </div>
+                <div class="stats-grid" id="personalStats"></div>
+                <div class="quick-stats">
+                    <h3>Évolution Mensuelle</h3>
+                    <div id="userStatsChart"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -438,14 +735,49 @@
         const database = firebase.database();
 
         let selectedUserId = null;
+        let currentUserType = null;
+        let currentUserId = null;
+        let currentUserName = null;
+
+        function setLoginType(type) {
+            document.getElementById('adminLoginBtn').classList.remove('active');
+            document.getElementById('userLoginBtn').classList.remove('active');
+            document.getElementById('adminLoginForm').classList.add('hidden');
+            document.getElementById('userLoginForm').classList.add('hidden');
+            
+            if (type === 'admin') {
+                document.getElementById('adminLoginBtn').classList.add('active');
+                document.getElementById('adminLoginForm').classList.remove('hidden');
+            } else {
+                document.getElementById('userLoginBtn').classList.add('active');
+                document.getElementById('userLoginForm').classList.remove('hidden');
+            }
+        }
 
         function checkAuth() {
-            const isLoggedIn = sessionStorage.getItem('adminLoggedIn') === 'true';
-            if (isLoggedIn) {
+            const userData = JSON.parse(sessionStorage.getItem('userData') || '{}');
+            if (userData.userId) {
+                currentUserType = userData.userType;
+                currentUserId = userData.userId;
+                currentUserName = userData.userName;
+                
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('app').classList.remove('hidden');
-                loadUsers();
-                loadMonthData();
+                
+                if (currentUserType === 'admin') {
+                    document.getElementById('adminNav').classList.remove('hidden');
+                    document.getElementById('userNav').classList.add('hidden');
+                    document.getElementById('welcomeMessage').textContent = 'Gestion des utilisateurs et des finances';
+                    loadUsers();
+                    showSection('users');
+                } else {
+                    document.getElementById('adminNav').classList.add('hidden');
+                    document.getElementById('userNav').classList.remove('hidden');
+                    document.getElementById('welcomeMessage').textContent = `Bienvenue ${currentUserName}`;
+                    document.getElementById('userWelcome').textContent = `Bienvenue ${currentUserName}`;
+                    showSection('dashboard');
+                    loadUserDashboard();
+                }
             } else {
                 document.getElementById('loginScreen').classList.remove('hidden');
                 document.getElementById('app').classList.add('hidden');
@@ -460,33 +792,81 @@
             setTimeout(() => element.classList.add('hidden'), 3000);
         }
 
-        function login() {
-            const username = document.getElementById('loginUsername').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            if (username === 'sadmin' && password === 'Azerty123') {
-                sessionStorage.setItem('adminLoggedIn', 'true');
-                checkAuth();
+        async function login() {
+            if (document.getElementById('adminLoginBtn').classList.contains('active')) {
+                const username = document.getElementById('adminUsername').value;
+                const password = document.getElementById('adminPassword').value;
+                
+                if (username === 'sadmin' && password === 'Azerty123') {
+                    sessionStorage.setItem('userData', JSON.stringify({
+                        userType: 'admin',
+                        userId: 'admin',
+                        userName: 'Administrateur'
+                    }));
+                    checkAuth();
+                } else {
+                    showMessage('loginError', 'Nom d\'utilisateur ou mot de passe admin incorrect');
+                }
             } else {
-                showMessage('loginError', 'Nom d\'utilisateur ou mot de passe incorrect');
+                const email = document.getElementById('userLoginEmail').value;
+                const password = document.getElementById('userLoginPassword').value;
+                
+                try {
+                    const snapshot = await database.ref('users').orderByChild('email').equalTo(email).once('value');
+                    const users = snapshot.val();
+                    
+                    if (users) {
+                        const userId = Object.keys(users)[0];
+                        const user = users[userId];
+                        
+                        if (user.password === password) {
+                            sessionStorage.setItem('userData', JSON.stringify({
+                                userType: 'user',
+                                userId: userId,
+                                userName: user.name,
+                                userEmail: user.email
+                            }));
+                            checkAuth();
+                        } else {
+                            showMessage('loginError', 'Mot de passe incorrect');
+                        }
+                    } else {
+                        showMessage('loginError', 'Aucun utilisateur trouvé avec cet email');
+                    }
+                } catch (error) {
+                    showMessage('loginError', 'Erreur de connexion: ' + error.message);
+                }
             }
         }
 
         function logout() {
-            sessionStorage.removeItem('adminLoggedIn');
+            sessionStorage.removeItem('userData');
+            currentUserType = null;
+            currentUserId = null;
+            currentUserName = null;
             checkAuth();
         }
 
         function showSection(sectionId) {
             document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
             document.getElementById(sectionId + 'Section').classList.remove('hidden');
+            if (sectionId === 'table') {
+                loadTableData();
+            } else if (sectionId === 'userHistory') {
+                loadUserHistory();
+            } else if (sectionId === 'stats') {
+                loadStats();
+            } else if (sectionId === 'userStats') {
+                loadUserStats();
+            }
         }
 
         async function createUser() {
             const name = document.getElementById('userName').value;
             const email = document.getElementById('userEmail').value;
+            const password = document.getElementById('userPassword').value;
             
-            if (!name || !email) {
+            if (!name || !email || !password) {
                 alert('Veuillez remplir tous les champs');
                 return;
             }
@@ -496,11 +876,13 @@
                 await newUserRef.set({
                     name: name,
                     email: email,
+                    password: password,
                     createdAt: new Date().toISOString()
                 });
                 
                 document.getElementById('userName').value = '';
                 document.getElementById('userEmail').value = '';
+                document.getElementById('userPassword').value = '';
                 
                 loadUsers();
                 showMessage('loginError', 'Utilisateur créé avec succès', false);
@@ -528,7 +910,7 @@
                             <div class="user-name">${user.name}</div>
                             <div class="user-email">${user.email}</div>
                         </div>
-                        <button onclick="editUser('${uid}', '${user.name}', '${user.email}')" class="btn" style="width: 100%; margin-top: 10px;">Sélectionner</button>
+                        <button onclick="editUser('${uid}', '${user.name}', '${user.email}')" class="btn" style="width:100%;margin-top:10px">Sélectionner</button>
                     `;
                     userList.appendChild(userCard);
                     
@@ -546,6 +928,7 @@
             selectedUserId = uid;
             document.getElementById('userName').value = name;
             document.getElementById('userEmail').value = email;
+            document.getElementById('userPassword').value = '';
         }
 
         async function updateUser() {
@@ -556,16 +939,24 @@
             
             const name = document.getElementById('userName').value;
             const email = document.getElementById('userEmail').value;
+            const password = document.getElementById('userPassword').value;
+            
+            const updates = {
+                name: name,
+                email: email
+            };
+            
+            if (password) {
+                updates.password = password;
+            }
             
             try {
-                await database.ref('users/' + selectedUserId).update({
-                    name: name,
-                    email: email
-                });
+                await database.ref('users/' + selectedUserId).update(updates);
                 
                 selectedUserId = null;
                 document.getElementById('userName').value = '';
                 document.getElementById('userEmail').value = '';
+                document.getElementById('userPassword').value = '';
                 
                 loadUsers();
                 showMessage('loginError', 'Utilisateur modifié avec succès', false);
@@ -586,12 +977,51 @@
                     selectedUserId = null;
                     document.getElementById('userName').value = '';
                     document.getElementById('userEmail').value = '';
+                    document.getElementById('userPassword').value = '';
                     
                     loadUsers();
                     showMessage('loginError', 'Utilisateur supprimé avec succès', false);
                 } catch (error) {
                     alert('Erreur: ' + error.message);
                 }
+            }
+        }
+
+        async function resetUserPassword() {
+            if (!selectedUserId) {
+                alert('Veuillez sélectionner un utilisateur');
+                return;
+            }
+            
+            const newPassword = prompt('Entrez le nouveau mot de passe:');
+            if (newPassword) {
+                try {
+                    await database.ref('users/' + selectedUserId).update({password: newPassword});
+                    showMessage('loginError', 'Mot de passe réinitialisé avec succès', false);
+                } catch (error) {
+                    alert('Erreur: ' + error.message);
+                }
+            }
+        }
+
+        async function loadUserDataForPeriod() {
+            const userId = document.getElementById('dataUserSelect').value;
+            const month = document.getElementById('monthSelect').value;
+            const year = document.getElementById('yearSelect').value;
+            
+            if (!userId) return;
+            
+            try {
+                const snapshot = await database.ref(`data/${year}/${month}/${userId}`).once('value');
+                const userData = snapshot.val() || {};
+                
+                document.getElementById('revenue').value = userData.revenue || '';
+                document.getElementById('salary').value = userData.salary || '';
+                document.getElementById('expenses').value = userData.expenses || '';
+                document.getElementById('deductions').value = userData.deductions || '';
+                document.getElementById('solde').value = userData.solde || '';
+            } catch (error) {
+                console.error('Erreur:', error);
             }
         }
 
@@ -617,85 +1047,152 @@
                 expenses: expenses,
                 deductions: deductions,
                 solde: solde,
-                updatedAt: new Date().toISOString()
+                updatedAt: new Date().toISOString(),
+                month: month,
+                year: year
             };
             
             try {
                 await database.ref(`data/${year}/${month}/${userId}`).set(data);
-                loadMonthData();
                 showMessage('loginError', 'Données enregistrées avec succès', false);
             } catch (error) {
                 alert('Erreur: ' + error.message);
             }
         }
 
-        async function loadMonthData() {
-            const month = document.getElementById('monthSelect').value;
-            const year = document.getElementById('yearSelect').value;
+        function clearDataForm() {
+            document.getElementById('revenue').value = '';
+            document.getElementById('salary').value = '';
+            document.getElementById('expenses').value = '';
+            document.getElementById('deductions').value = '';
+            document.getElementById('solde').value = '';
+        }
+
+        async function duplicatePreviousMonth() {
             const userId = document.getElementById('dataUserSelect').value;
+            const currentMonth = parseInt(document.getElementById('monthSelect').value);
+            const currentYear = parseInt(document.getElementById('yearSelect').value);
+            
+            if (!userId) {
+                alert('Veuillez sélectionner un utilisateur');
+                return;
+            }
+            
+            let prevMonth = currentMonth - 1;
+            let prevYear = currentYear;
+            if (prevMonth === 0) {
+                prevMonth = 12;
+                prevYear--;
+            }
+            
+            const monthStr = prevMonth.toString().padStart(2, '0');
             
             try {
-                const snapshot = await database.ref(`data/${year}/${month}`).once('value');
-                const data = snapshot.val() || {};
+                const snapshot = await database.ref(`data/${prevYear}/${monthStr}/${userId}`).once('value');
+                const prevData = snapshot.val() || {};
+                
+                if (Object.keys(prevData).length === 0) {
+                    alert('Aucune donnée trouvée pour le mois précédent');
+                    return;
+                }
+                
+                if (confirm(`Dupliquer les données de ${getMonthName(prevMonth)} ${prevYear} ?`)) {
+                    document.getElementById('revenue').value = prevData.revenue || '';
+                    document.getElementById('salary').value = prevData.salary || '';
+                    document.getElementById('expenses').value = prevData.expenses || '';
+                    document.getElementById('deductions').value = prevData.deductions || '';
+                    document.getElementById('solde').value = prevData.solde || '';
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+            }
+        }
+
+        function getMonthName(month) {
+            const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+            return monthNames[month - 1];
+        }
+
+        async function loadTableData() {
+            const year = document.getElementById('tableYearSelect').value;
+            
+            try {
+                const snapshot = await database.ref(`data/${year}`).once('value');
+                const yearData = snapshot.val() || {};
                 const usersSnapshot = await database.ref('users').once('value');
                 const users = usersSnapshot.val() || {};
-                
-                if (userId) {
-                    const userData = data[userId] || {};
-                    document.getElementById('revenue').value = userData.revenue || '';
-                    document.getElementById('salary').value = userData.salary || '';
-                    document.getElementById('expenses').value = userData.expenses || '';
-                    document.getElementById('deductions').value = userData.deductions || '';
-                    document.getElementById('solde').value = userData.solde || '';
-                }
                 
                 let tableHTML = '<table>';
                 tableHTML += `
                     <thead>
                         <tr>
                             <th>Utilisateur</th>
+                            <th>Mois</th>
+                            <th>Année</th>
                             <th>Chiffre d'affaire</th>
                             <th>Salaire</th>
                             <th>Notes de frais</th>
                             <th>Déductions</th>
                             <th>Sol 7 dernières</th>
                             <th>Solde</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                 `;
                 
+                let totalRevenue = 0;
+                let totalSalary = 0;
+                let totalExpenses = 0;
+                let totalDeductions = 0;
                 let totalSol7 = 0;
                 let totalSolde = 0;
                 
-                Object.keys(data).forEach(userId => {
-                    const userData = data[userId];
-                    const user = users[userId];
-                    const sol7 = (userData.revenue || 0) - (userData.salary || 0) - (userData.expenses || 0) - (userData.deductions || 0);
-                    const solde = userData.solde || 0;
-                    
-                    totalSol7 += sol7;
-                    totalSolde += solde;
-                    
-                    tableHTML += `
-                        <tr>
-                            <td>${user ? user.name : 'Utilisateur inconnu'}</td>
-                            <td>${(userData.revenue || 0).toFixed(2)} €</td>
-                            <td>${(userData.salary || 0).toFixed(2)} €</td>
-                            <td>${(userData.expenses || 0).toFixed(2)} €</td>
-                            <td>${(userData.deductions || 0).toFixed(2)} €</td>
-                            <td class="${sol7 >= 0 ? 'positive' : 'negative'}">${sol7.toFixed(2)} €</td>
-                            <td class="${solde >= 0 ? 'positive' : 'negative'}">${solde.toFixed(2)} €</td>
-                        </tr>
-                    `;
+                Object.keys(yearData).forEach(month => {
+                    const monthData = yearData[month];
+                    Object.keys(monthData).forEach(userId => {
+                        const userData = monthData[userId];
+                        const user = users[userId];
+                        const sol7 = (userData.revenue || 0) - (userData.salary || 0) - (userData.expenses || 0) - (userData.deductions || 0);
+                        const solde = userData.solde || 0;
+                        
+                        totalRevenue += userData.revenue || 0;
+                        totalSalary += userData.salary || 0;
+                        totalExpenses += userData.expenses || 0;
+                        totalDeductions += userData.deductions || 0;
+                        totalSol7 += sol7;
+                        totalSolde += solde;
+                        
+                        const monthName = getMonthName(parseInt(month));
+                        tableHTML += `
+                            <tr>
+                                <td>${user ? user.name : 'Utilisateur inconnu'}</td>
+                                <td>${monthName}</td>
+                                <td>${userData.year || year}</td>
+                                <td>${(userData.revenue || 0).toFixed(2)} €</td>
+                                <td>${(userData.salary || 0).toFixed(2)} €</td>
+                                <td>${(userData.expenses || 0).toFixed(2)} €</td>
+                                <td>${(userData.deductions || 0).toFixed(2)} €</td>
+                                <td class="${sol7 >= 0 ? 'positive' : 'negative'}">${sol7.toFixed(2)} €</td>
+                                <td class="${solde >= 0 ? 'positive' : 'negative'}">${solde.toFixed(2)} €</td>
+                                <td><button onclick="editData('${userId}', '${month}', '${year}')" class="btn" style="padding:8px 12px;font-size:0.9rem">Modifier</button></td>
+                            </tr>
+                        `;
+                    });
                 });
                 
                 tableHTML += `
-                    <tr style="background-color: #f8f9fa; font-weight: 600;">
+                    <tr style="background-color:#f8f9fa;font-weight:600">
                         <td>TOTAL</td>
-                        <td colspan="4"></td>
+                        <td></td>
+                        <td></td>
+                        <td>${totalRevenue.toFixed(2)} €</td>
+                        <td>${totalSalary.toFixed(2)} €</td>
+                        <td>${totalExpenses.toFixed(2)} €</td>
+                        <td>${totalDeductions.toFixed(2)} €</td>
                         <td class="${totalSol7 >= 0 ? 'positive' : 'negative'}">${totalSol7.toFixed(2)} €</td>
                         <td class="${totalSolde >= 0 ? 'positive' : 'negative'}">${totalSolde.toFixed(2)} €</td>
+                        <td></td>
                     </tr>
                 `;
                 
@@ -707,9 +1204,373 @@
             }
         }
 
+        function editData(userId, month, year) {
+            document.getElementById('dataUserSelect').value = userId;
+            document.getElementById('monthSelect').value = month;
+            document.getElementById('yearSelect').value = year;
+            showSection('data');
+            setTimeout(() => loadUserDataForPeriod(), 100);
+        }
+
+        async function loadUserDashboard() {
+            const month = document.getElementById('dashboardMonthSelect').value;
+            const year = document.getElementById('dashboardYearSelect').value;
+            
+            try {
+                const snapshot = await database.ref(`data/${year}/${month}/${currentUserId}`).once('value');
+                const userData = snapshot.val() || {};
+                const sol7 = (userData.revenue || 0) - (userData.salary || 0) - (userData.expenses || 0) - (userData.deductions || 0);
+                const solde = userData.solde || 0;
+                
+                const monthName = getMonthName(parseInt(month));
+                
+                document.getElementById('userSummary').innerHTML = `
+                    <div class="summary-card">
+                        <div class="summary-label">Chiffre d'affaire</div>
+                        <div class="summary-value">${(userData.revenue || 0).toFixed(2)} €</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Salaire avec charges</div>
+                        <div class="summary-value">${(userData.salary || 0).toFixed(2)} €</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Notes de frais</div>
+                        <div class="summary-value">${(userData.expenses || 0).toFixed(2)} €</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Déductions</div>
+                        <div class="summary-value">${(userData.deductions || 0).toFixed(2)} €</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Sol 7 dernières</div>
+                        <div class="summary-value ${sol7 >= 0 ? 'positive' : 'negative'}">${sol7.toFixed(2)} €</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Solde</div>
+                        <div class="summary-value ${solde >= 0 ? 'positive' : 'negative'}">${solde.toFixed(2)} €</div>
+                    </div>
+                `;
+                
+                let tableHTML = '<table>';
+                tableHTML += `
+                    <thead>
+                        <tr>
+                            <th>Période</th>
+                            <th>Chiffre d'affaire</th>
+                            <th>Salaire</th>
+                            <th>Notes de frais</th>
+                            <th>Déductions</th>
+                            <th>Sol 7 dernières</th>
+                            <th>Solde</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+                
+                tableHTML += `
+                    <tr>
+                        <td>${monthName} ${userData.year || year}</td>
+                        <td>${(userData.revenue || 0).toFixed(2)} €</td>
+                        <td>${(userData.salary || 0).toFixed(2)} €</td>
+                        <td>${(userData.expenses || 0).toFixed(2)} €</td>
+                        <td>${(userData.deductions || 0).toFixed(2)} €</td>
+                        <td class="${sol7 >= 0 ? 'positive' : 'negative'}">${sol7.toFixed(2)} €</td>
+                        <td class="${solde >= 0 ? 'positive' : 'negative'}">${solde.toFixed(2)} €</td>
+                    </tr>
+                `;
+                
+                tableHTML += '</tbody></table>';
+                document.getElementById('userDataTable').innerHTML = tableHTML;
+                
+            } catch (error) {
+                console.error('Erreur:', error);
+            }
+        }
+
+        async function loadUserHistory() {
+            const year = document.getElementById('historyYearSelect').value;
+            
+            try {
+                const snapshot = await database.ref(`data/${year}`).once('value');
+                const yearData = snapshot.val() || {};
+                
+                let tableHTML = '<table>';
+                tableHTML += `
+                    <thead>
+                        <tr>
+                            <th>Mois</th>
+                            <th>Année</th>
+                            <th>Chiffre d'affaire</th>
+                            <th>Salaire</th>
+                            <th>Notes de frais</th>
+                            <th>Déductions</th>
+                            <th>Sol 7 dernières</th>
+                            <th>Solde</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+                
+                let totalRevenue = 0;
+                let totalSalary = 0;
+                let totalExpenses = 0;
+                let totalDeductions = 0;
+                let totalSol7 = 0;
+                let totalSolde = 0;
+                
+                for (let month = 1; month <= 12; month++) {
+                    const monthStr = month.toString().padStart(2, '0');
+                    const monthData = yearData[monthStr];
+                    if (monthData && monthData[currentUserId]) {
+                        const userData = monthData[currentUserId];
+                        const sol7 = (userData.revenue || 0) - (userData.salary || 0) - (userData.expenses || 0) - (userData.deductions || 0);
+                        const solde = userData.solde || 0;
+                        
+                        totalRevenue += userData.revenue || 0;
+                        totalSalary += userData.salary || 0;
+                        totalExpenses += userData.expenses || 0;
+                        totalDeductions += userData.deductions || 0;
+                        totalSol7 += sol7;
+                        totalSolde += solde;
+                        
+                        const monthName = getMonthName(month);
+                        tableHTML += `
+                            <tr>
+                                <td>${monthName}</td>
+                                <td>${userData.year || year}</td>
+                                <td>${(userData.revenue || 0).toFixed(2)} €</td>
+                                <td>${(userData.salary || 0).toFixed(2)} €</td>
+                                <td>${(userData.expenses || 0).toFixed(2)} €</td>
+                                <td>${(userData.deductions || 0).toFixed(2)} €</td>
+                                <td class="${sol7 >= 0 ? 'positive' : 'negative'}">${sol7.toFixed(2)} €</td>
+                                <td class="${solde >= 0 ? 'positive' : 'negative'}">${solde.toFixed(2)} €</td>
+                            </tr>
+                        `;
+                    }
+                }
+                
+                tableHTML += `
+                    <tr style="background-color:#f8f9fa;font-weight:600">
+                        <td>TOTAL ANNUEL</td>
+                        <td></td>
+                        <td>${totalRevenue.toFixed(2)} €</td>
+                        <td>${totalSalary.toFixed(2)} €</td>
+                        <td>${totalExpenses.toFixed(2)} €</td>
+                        <td>${totalDeductions.toFixed(2)} €</td>
+                        <td class="${totalSol7 >= 0 ? 'positive' : 'negative'}">${totalSol7.toFixed(2)} €</td>
+                        <td class="${totalSolde >= 0 ? 'positive' : 'negative'}">${totalSolde.toFixed(2)} €</td>
+                    </tr>
+                `;
+                
+                tableHTML += '</tbody></table>';
+                document.getElementById('userHistoryTable').innerHTML = tableHTML;
+                
+            } catch (error) {
+                console.error('Erreur:', error);
+            }
+        }
+
+        async function loadStats() {
+            const year = document.getElementById('statsYearSelect').value;
+            
+            try {
+                const snapshot = await database.ref(`data/${year}`).once('value');
+                const yearData = snapshot.val() || {};
+                const usersSnapshot = await database.ref('users').once('value');
+                const users = usersSnapshot.val() || {};
+                
+                let totalRevenue = 0;
+                let totalSalary = 0;
+                let totalExpenses = 0;
+                let totalDeductions = 0;
+                let totalSol7 = 0;
+                let totalSolde = 0;
+                let userCount = 0;
+                let monthCount = 0;
+                
+                Object.keys(yearData).forEach(month => {
+                    const monthData = yearData[month];
+                    Object.keys(monthData).forEach(userId => {
+                        const userData = monthData[userId];
+                        const sol7 = (userData.revenue || 0) - (userData.salary || 0) - (userData.expenses || 0) - (userData.deductions || 0);
+                        
+                        totalRevenue += userData.revenue || 0;
+                        totalSalary += userData.salary || 0;
+                        totalExpenses += userData.expenses || 0;
+                        totalDeductions += userData.deductions || 0;
+                        totalSol7 += sol7;
+                        totalSolde += userData.solde || 0;
+                        userCount++;
+                    });
+                    monthCount++;
+                });
+                
+                const avgRevenue = userCount > 0 ? totalRevenue / userCount : 0;
+                const avgSol7 = userCount > 0 ? totalSol7 / userCount : 0;
+                
+                document.getElementById('globalStats').innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-title">Chiffre d'affaire total</div>
+                        <div class="stat-value">${totalRevenue.toFixed(2)} €</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Salaire total</div>
+                        <div class="stat-value">${totalSalary.toFixed(2)} €</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Sol 7 dernières total</div>
+                        <div class="stat-value ${totalSol7 >= 0 ? 'positive' : 'negative'}">${totalSol7.toFixed(2)} €</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Solde total</div>
+                        <div class="stat-value ${totalSolde >= 0 ? 'positive' : 'negative'}">${totalSolde.toFixed(2)} €</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">CA moyen par utilisateur</div>
+                        <div class="stat-value">${avgRevenue.toFixed(2)} €</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Sol 7 moyen</div>
+                        <div class="stat-value ${avgSol7 >= 0 ? 'positive' : 'negative'}">${avgSol7.toFixed(2)} €</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Nombre d'utilisateurs</div>
+                        <div class="stat-value">${Object.keys(users).length}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Mois avec données</div>
+                        <div class="stat-value">${monthCount}</div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Erreur:', error);
+            }
+        }
+
+        async function loadUserStats() {
+            const year = document.getElementById('userStatsYearSelect').value;
+            
+            try {
+                const snapshot = await database.ref(`data/${year}`).once('value');
+                const yearData = snapshot.val() || {};
+                
+                let totalRevenue = 0;
+                let totalSalary = 0;
+                let totalExpenses = 0;
+                let totalDeductions = 0;
+                let totalSol7 = 0;
+                let totalSolde = 0;
+                let monthCount = 0;
+                
+                for (let month = 1; month <= 12; month++) {
+                    const monthStr = month.toString().padStart(2, '0');
+                    const monthData = yearData[monthStr];
+                    if (monthData && monthData[currentUserId]) {
+                        const userData = monthData[currentUserId];
+                        const sol7 = (userData.revenue || 0) - (userData.salary || 0) - (userData.expenses || 0) - (userData.deductions || 0);
+                        
+                        totalRevenue += userData.revenue || 0;
+                        totalSalary += userData.salary || 0;
+                        totalExpenses += userData.expenses || 0;
+                        totalDeductions += userData.deductions || 0;
+                        totalSol7 += sol7;
+                        totalSolde += userData.solde || 0;
+                        monthCount++;
+                    }
+                }
+                
+                const avgRevenue = monthCount > 0 ? totalRevenue / monthCount : 0;
+                const avgSol7 = monthCount > 0 ? totalSol7 / monthCount : 0;
+                
+                document.getElementById('personalStats').innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-title">Mon CA annuel</div>
+                        <div class="stat-value">${totalRevenue.toFixed(2)} €</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Mon salaire annuel</div>
+                        <div class="stat-value">${totalSalary.toFixed(2)} €</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Mon Sol 7 annuel</div>
+                        <div class="stat-value ${totalSol7 >= 0 ? 'positive' : 'negative'}">${totalSol7.toFixed(2)} €</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Mon solde total</div>
+                        <div class="stat-value ${totalSolde >= 0 ? 'positive' : 'negative'}">${totalSolde.toFixed(2)} €</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Mon CA mensuel moyen</div>
+                        <div class="stat-value">${avgRevenue.toFixed(2)} €</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Mon Sol 7 mensuel moyen</div>
+                        <div class="stat-value ${avgSol7 >= 0 ? 'positive' : 'negative'}">${avgSol7.toFixed(2)} €</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Mois avec données</div>
+                        <div class="stat-value">${monthCount}</div>
+                    </div>
+                `;
+                
+                let chartHTML = '<table>';
+                chartHTML += `
+                    <thead>
+                        <tr>
+                            <th>Mois</th>
+                            <th>CA</th>
+                            <th>Sol 7</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+                
+                for (let month = 1; month <= 12; month++) {
+                    const monthStr = month.toString().padStart(2, '0');
+                    const monthData = yearData[monthStr];
+                    const monthName = getMonthName(month);
+                    if (monthData && monthData[currentUserId]) {
+                        const userData = monthData[currentUserId];
+                        const sol7 = (userData.revenue || 0) - (userData.salary || 0) - (userData.expenses || 0) - (userData.deductions || 0);
+                        chartHTML += `
+                            <tr>
+                                <td>${monthName}</td>
+                                <td>${(userData.revenue || 0).toFixed(2)} €</td>
+                                <td class="${sol7 >= 0 ? 'positive' : 'negative'}">${sol7.toFixed(2)} €</td>
+                            </tr>
+                        `;
+                    } else {
+                        chartHTML += `
+                            <tr>
+                                <td>${monthName}</td>
+                                <td>0.00 €</td>
+                                <td>0.00 €</td>
+                            </tr>
+                        `;
+                    }
+                }
+                
+                chartHTML += '</tbody></table>';
+                document.getElementById('userStatsChart').innerHTML = chartHTML;
+                
+            } catch (error) {
+                console.error('Erreur:', error);
+            }
+        }
+
+        function exportToCSV() {
+            const year = document.getElementById('tableYearSelect').value;
+            alert(`Export CSV pour ${year} - Fonctionnalité à implémenter`);
+        }
+
+        function exportToExcel() {
+            const year = document.getElementById('tableYearSelect').value;
+            alert(`Export Excel pour ${year} - Fonctionnalité à implémenter`);
+        }
+
         window.onload = function() {
+            setLoginType('admin');
             checkAuth();
-            showSection('users');
         };
     </script>
 </body>
